@@ -1,0 +1,41 @@
+Warning: Package manager verification has failed:
+         File: /usr/bin/systemctl
+         The file permissions have changed
+Warning: Account 'test' is root equivalent (UID = 0)
+Warning: Found passwordless account in shadow file: test1
+Warning: The SSH and rkhunter configuration options should be the same:
+         SSH configuration option 'PermitRootLogin': no
+         Rkhunter configuration option 'ALLOW_SSH_ROOT_USER': unset
+Warning: Suspicious file types found in /dev:
+         /dev/shm/ad_connect_queue_1364_0_evt_event_mtx: data
+         /dev/shm/ad_connect_queue_1364_0_mtx: data
+         /dev/shm/ad_connect_queue_1364_0_shm: data
+         /dev/shm/ad_611_gsystem_evt_event_mtx: data
+         /dev/shm/ad_611_gsystem_mtx: data
+         /dev/shm/ad_611_gsystem_shm: data
+         /dev/shm/ad_611_lsystem_evt_event_mtx: data
+         /dev/shm/ad_611_lsystem_mtx: data
+         /dev/shm/ad_611_lsystem_shm: data
+
+
+System checks summary
+=====================
+
+File properties checks...
+    Files checked: 136
+    Suspect files: 1
+
+Rootkit checks...
+    Rootkits checked : 498
+    Possible rootkits: 0
+
+Applications checks...
+    All checks skipped
+
+The system checks took: 2 minutes and 13 seconds
+
+All results have been written to the log file: /var/log/rkhunter/rkhunter.log
+
+One or more warnings have been found while checking the system.
+Please check the log file (/var/log/rkhunter/rkhunter.log)
+

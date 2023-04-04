@@ -1,0 +1,29 @@
+#!/bin/bash
+
+echo "`date +"%b %d %T %Y"` : INFO : Track SUID & SGID command invoked" >> /var/log/osstatus.log
+
+rm -rf /athinio/system/track_susg_error.txt
+
+tsusg=$(awk -F "[><]" '/param0/{print $3}' /athinio/system/param_cmd_76.xml)
+
+if [ -e "$tsusg" ]; then
+
+find "$tsusg" \( -perm -4000 -o -perm -2000 \) -print > /athinio/system/SUID_SGID
+
+/usr/bin/python /athinio/bin/largefiles.py /athinio/system/SUID_SGID
+
+if [ $? -eq 0 ]; then
+
+echo "`date +"%b %d %T %Y"` : SUCCESS : Track SUID & SGID command executed for \"$tsusg\"" >> /var/log/osstatus.log
+
+>/athinio/system/SUID_SGID
+
+elif [ $? -ne 0 ]; then
+echo "`date +"%b %d %T %Y"` : ERROR : Command not executed. Please check Python files are there or not!" >> /var/log/osstatus.log
+fi
+
+else
+echo "`date +"%b %d %T %Y"` : ERROR : \"$tsusg\" folder doesn't exists. Please check the folder name..!" > /athinio/system/track_susg_error.txt
+echo "ERROR:\"$tsusg\" folder doesn't exists. Please check the folder name..!" > /athinio/system/alertlog1.txt
+echo "`date +"%b %d %T %Y"` : ERROR : Entered path \"$tsusg\" is wrong" >> /var/log/osstatus.log
+fi

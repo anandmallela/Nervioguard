@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ServerConfiguration>
+  <CompanyID>1</CompanyID>
+  <CustomerID>101</CustomerID>
+  <BranchID>1</BranchID>
+  <ProductID>2</ProductID>
+  <SystemID>1</SystemID>
+  <GatewayKey>0</GatewayKey>
+  <ServerIP>101.53.141.48</ServerIP>
+  <ServerPort>20475</ServerPort>
+  <DataDir>/</DataDir>
+  <MountDir>/athinio/data/</MountDir>
+  <ca_list>/rationalVault/etc/sslclient/root.p12</ca_list>
+  <certificate>/rationalVault/etc/sslclient/client.pem</certificate>
+  <DHFILE>/rationalVault/etc/sslclient/dh2048.pem</DHFILE>
+  <EncryptionKey>0</EncryptionKey>
+  <LogPath>/athinio/data/1cloudFiler/log/gateway.log</LogPath>
+  <CONTAINERPATH>/home/athinio/data/metaReplication</CONTAINERPATH>
+  <Replication>1</Replication>
+  <CLSEQNO>0</CLSEQNO>
+  <BRSEQNO>0</BRSEQNO>
+  <GDSEQNO>0</GDSEQNO>
+</ServerConfiguration>

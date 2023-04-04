@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "`date +"%b %d %T %Y"` : INFO : SSHD Login Timeout command invoked" >> /var/log/osstatus.log
+
+sudo systemctl stop sshd
+
+sed -i "s/\(\#ClientAliveInterval\)/ClientAliveInterval/" /etc/ssh/sshd_config
+sed -i "s/\(\#ClientAliveCountMax\)/ClientAliveCountMax/" /etc/ssh/sshd_config
+
+time1=$(awk '/ClientAliveInterval/ {print $2}'  /etc/ssh/sshd_config )
+
+num=$(awk '/ClientAliveCountMax/ {print $2}'  /etc/ssh/sshd_config )
+
+sed -i "s/\(ClientAliveInterval $time1\)/ClientAliveInterval $1/" /etc/ssh/sshd_config
+
+sed -i "s/\(ClientAliveCountMax $num\)/ClientAliveCountMax $2/" /etc/ssh/sshd_config
+
+sudo systemctl start sshd
+
+echo "ALERT : SSHD Login Timeout Configured with ClientAliveInterval $1 ClientAliveCountMax $2" > /athinio/system/ssh_alert.txt
+
+echo "`date +"%b %d %T %Y"` : ALERT : SSHD Login Timeout Configured with ClientAliveInterval $1 ClientAliveCountMax $2" >> /var/log/osstatus.log

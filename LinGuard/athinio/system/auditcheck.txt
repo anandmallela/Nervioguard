@@ -1,0 +1,1 @@
+-w /athinio -p rwxa -k athinio1 -w /rationalVault -p rwxa -k athinio2

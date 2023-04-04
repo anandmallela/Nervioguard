@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#Take a note of all writable files
+
+echo "`date +"%b %d %T %Y"` : INFO : World Writable Files command invoked" >> /var/log/osstatus.log
+
+rm -rf /athinio/system/ww_error.txt
+
+wwvar=$(awk -F "[><]" '/param0/{print $3}' /athinio/system/param_cmd_74.xml)
+
+if [ -e "$wwvar" ]; then
+
+find "$wwvar" -xdev -type d \( -perm -0002 -a ! -perm -1000 \) -print > /athinio/system/WW_FILES
+
+#rm -fr /athinio/system/world_writable_files.xml
+
+/usr/bin/python /athinio/bin/largefiles.py /athinio/system/WW_FILES
+
+if [ $? -eq 0 ]; then
+
+echo "`date +"%b %d %T %Y"` : SUCCESS : World Writable Files command executed for \"$wwvar\"" >> /var/log/osstatus.log
+
+>/athinio/system/WW_FILES
+
+elif [ $? -ne 0 ]; then
+echo "`date +"%b %d %T %Y"` : ERROR : Command not executed. Please check Python files are there or not!" >> /var/log/osstatus.log
+fi
+
+else
+echo "ERROR: \"$wwvar\" folder doesn't exists. Please check the folder name..!" > /athinio/system/ww_error.txt
+echo "ERROR:\"$wwvar\" folder doesn't exists. Please check the folder name..!" > /athinio/system/alertlog1.txt
+echo "`date +"%b %d %T %Y"` : ERROR : Entered path \"$wwvar\" is wrong" >> /var/log/osstatus.log
+fi

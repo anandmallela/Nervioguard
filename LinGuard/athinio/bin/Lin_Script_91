@@ -1,0 +1,15 @@
+#!/bin/sh
+a=$(xmlstarlet sel -t -m //options -v . /athinio/system/param_cmd_91.xml)
+if [ $a -eq 1 ]
+then
+crontab -l > mycron
+echo "0 * * * * /athinio/bin/rkhunter.sh" >> mycron
+crontab mycron
+rm mycron
+echo "`date +"%b %d %T %Y"` : INFO : adding rkhunter to crontab ,executing every 60min"  >> /var/log/osstatus.log
+elif [ $a -eq 0 ]
+then
+(crontab -l | grep -v -F "/athinio/bin/rkhunter.sh" ) | crontab -
+echo "`date +"%b %d %T %Y"` : INFO : removing rkhunter from cronjob"  >> /var/log/osstatus.log
+echo "`date +"%b %d %T %Y"` : INFO : Disabled rkhunter" > /athinio/system/rootkitscan.txt
+fi

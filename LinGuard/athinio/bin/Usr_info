@@ -1,0 +1,48 @@
+#!/bin/bash
+
+if [ $1 == "-ep" ]
+then
+   echo "`date +"%b %d %T %Y"` : INFO : Get Empty Password for Users Command Executed" >> /var/log/osstatus.log
+   for i in $(ls -1 /home)
+   do
+   passwd -uf $i
+   done
+
+   awk -F: '($2 == "") {print $1}' /etc/shadow > /athinio/system/EMPTYPASS
+   
+   if [ $? -eq 0 ]; then
+   rm -fr /athinio/system/user_emptypass_list.xml
+   /usr/bin/python /athinio/bin/largefiles.py /athinio/system/EMPTYPASS
+   
+   if [ $? -eq 0 ]; then
+   echo "`date +"%b %d %T %Y"` : SUCCESS : Get Empty Password for Users Command Succeeded" >> /var/log/osstatus.log
+   > /athinio/system/EMPTYPASS
+   elif [ $? -ne 0 ]; then
+   echo "`date +"%b %d %T %Y"` : ERROR : Can't create XML files. Check Python files are there or not?" >> /var/log/osstatus.log
+   fi
+   
+   elif [ $? -ne 0 ]; then
+   echo "`date +"%b %d %T %Y"` : ERROR : Can't execute get Empty Password for Users command" >> /var/log/osstatus.log
+   fi
+fi
+
+if  [ $1 == "-uid" ]
+then
+   echo "`date +"%b %d %T %Y"` : INFO : Get Zero UID for Users Command Executed" >> /var/log/osstatus.log
+   awk -F: '($3 == "0") {print $1}' /etc/passwd > /athinio/system/ZEROUID
+
+   if [ $? -eq 0 ]; then
+   rm -fr /athinio/system/zero_uid.xml
+   /usr/bin/python /athinio/bin/largefiles.py /athinio/system/ZEROUID
+
+   if [ $? -eq 0 ]; then
+   echo "`date +"%b %d %T %Y"` : SUCCESS : Get Zero UID for Users Command Succeeded" >> /var/log/osstatus.log
+   > /athinio/system/ZEROUID
+   elif [ $? -ne 0 ]; then
+   echo "`date +"%b %d %T %Y"` : ERROR : Can't create XML files. Check Python files are there or not?" >> /var/log/osstatus.log
+   fi
+
+   elif [ $? -ne 0 ]; then
+   echo "`date +"%b %d %T %Y"` : ERROR : Can't execute get Zero UID for Users command" >> /var/log/osstatus.log
+   fi
+fi

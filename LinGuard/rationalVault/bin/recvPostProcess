@@ -1,0 +1,67 @@
+#!/bin/bash
+
+export dir_SwUpdate="/rationalVault/extractSwUpdate"
+export PWD=`pwd`
+
+mnth=`date | cut -d" " -f2`
+day=`date | cut -d" " -f3`
+Time=`date | cut -d" " -f4`
+year=`date | cut -d" " -f6`
+
+#echo "$mnth" "$day" "$Time" "$year": INFO: received "$1" >> /rationalVault/log/rationalclient.log
+if [[ "$1" == */postOppRecv ]];then
+    echo "$mnth" "$day" "$Time" "$year": INFO : detected remoteCommand excution file...going to execute "$1" >> /rationalVault/log/rationalclient.log
+    bash "$1" #execute the command file
+    rVal=`awk '/<cmd_rVal>/ { print }' /athinio/miscellaneous/PostOppRecv.xml | cut -d ">" -f2 | cut -d "<" -f1` #read the return value of command
+    if [ $rVal -eq 0 ];then
+        sed -i "s/\(<status>\)[^<]*\(<\/status>\)/\1"1"\2/" /athinio/miscellaneous/PostOppRecv.xml #
+        echo "$mnth" "$day" "$Time" "$year": INFO : "$1" excuted successfully >> /rationalVault/log/rationalclient.log
+    else
+        echo "$mnth" "$day" "$Time" "$year": CRITICAL ERROR : failed to execute "$1"...exited with "$rVal" >> /rationalVault/log/rationalclient.log
+    fi
+fi
+
+StopStartAllServices(){
+    case "$1" in
+        stop)
+            /athinio/bin/stopAllServices
+            ;;
+        start)
+            /athinio/bin/startAllServices
+            ;;
+        *)
+            echo "$mnth" "$day" "$Time" "$year": CRITICAL ERROR : No args passed in StopStartAllServices\(\) in recvPostProcess >> /rationalVault/log/rationalclient.log
+    esac
+}
+
+cd "$dir_SwUpdate"
+if [[ "$1" == *.tgz || "$1" == *.tar || "$1" == *.tar.bz2 ]];then
+    StopStartAllServices "stop"
+    tar -xf "$1"
+    for dir in `ls -lrt`
+    do
+        if [ -d "$dir" ];then
+            cd "$dir"
+            for file in `ls -lrt`
+            do
+                if [ -f "$file" ];then
+                    if [ "$file" == "installer" ];then
+                        chmod 0777 "$file"
+                        ./"$file"
+                    fi
+                fi
+            done
+            cd ..
+            export Isdir_SwUpdate=`pwd`
+            if [ $Isdir_SwUpdate = $dir_SwUpdate ];then
+                rm -rf "$dir"
+            fi
+        fi
+    done
+StopStartAllServices "start"
+cd $PWD
+fi
+#if [[ "$1" == *.lib ]];then
+#    StopStartAllServices "stop"
+#    StopStartAllServices "start"
+#fi

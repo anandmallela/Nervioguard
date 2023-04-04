@@ -1,0 +1,15 @@
+#!/bin/bash
+
+export proc=`ps -aux | wc -l`
+#echo $proc
+
+export freeMem=`free -m | grep ^Mem | tr -s ' ' | cut -d ' ' -f4`
+#echo $freeMem
+
+export freeSpac=`df -h  / | head -2 | tail -1 | awk '{print $4}'`
+#echo $freeSpac
+
+
+sed -i "s/\(<process_running>\)[^<]*\(<\/process_running>\)/\1"$proc"\2/" /athinio/system/osstatus.xml
+sed -i "s/\(<free_memory_MiB>\)[^<]*\(<\/free_memory_MiB>\)/\1"$freeMem"\2/" /athinio/system/osstatus.xml
+sed -i "s/\(<free_space_GiB>\)[^<]*\(<\/free_space_GiB>\)/\1"$freeSpac"\2/" /athinio/system/osstatus.xml

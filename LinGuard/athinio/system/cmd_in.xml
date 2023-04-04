@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CMD_CONFIG>
+        <firewallStatus>DONE</firewallStatus>
+	<selinuxStatus>DONE</selinuxStatus>
+	<serviceStatus>DONE</serviceStatus>
+	<clamStatus>DONE</clamStatus>
+	<rootconfStatus>DONE</rootconfStatus>
+	<rebootclientStatus>DONE</rebootclientStatus>
+	<realtimebackup>DONE</realtimebackup>
+</CMD_CONFIG>

@@ -1,0 +1,55 @@
+Nov 26 18:26:45 2022:  INFO : Entering sendHelloMessageToRational
+Nov 26 18:26:45 2022:  INFO : Company id is 2
+Nov 26 18:26:45 2022:  INFO : Customer id is 101
+Nov 26 18:26:45 2022:  INFO : Branch ID is 1
+Nov 26 18:26:45 2022:  INFO : Product ID 2 and system ID 1
+Nov 26 18:26:45 2022:  INFO : sendHelloMessageToRational calling cloud_send()
+Nov 26 18:26:45 2022:  INFO : Leaving sendHelloMessageToRational
+Nov 26 18:26:50 2022: Going to sleep for 10sec
+Nov 26 18:27:02 2022:  AUDIT_LOGGING : Executed Ransomware-checker for /rationalVault/all_xml_dir/store
+Nov 26 18:27:04 2022: Entering Sender() filename /athinio/system/osstatus.xml, curpos 122
+Nov 26 18:27:06 2022: Leaving Sender() filename /athinio/system/osstatus.xml, curpos 28
+Nov 26 18:27:12 2022: Entering Sender() filename /athinio/system/CurrentEvents.xml, curpos 132
+Nov 26 18:27:14 2022: Leaving Sender() filename /athinio/system/CurrentEvents.xml, curpos 28
+Nov 26 18:27:21 2022: Entering Sender() filename /athinio/system/AuditLogItems.xml, curpos 132
+Nov 26 18:27:22 2022: Leaving Sender() filename /athinio/system/AuditLogItems.xml, curpos 28
+Nov 26 18:27:28 2022: Entering Sender() filename /athinio/recovery/criticalErrors.xml, curpos 138
+Nov 26 18:27:30 2022: Leaving Sender() filename /athinio/recovery/criticalErrors.xml, curpos 28
+Nov 26 18:27:36 2022: Entering Sender() filename /athinio/system/auditlogs.txt, curpos 124
+Nov 26 18:27:40 2022: Leaving Sender() filename /athinio/system/auditlogs.txt, curpos 28
+Nov 26 18:27:46 2022: Entering Sender() filename /athinio/system/alertlog.xml, curpos 122
+Nov 26 18:27:48 2022: Leaving Sender() filename /athinio/system/alertlog.xml, curpos 28
+Nov 26 18:27:54 2022: Entering Sender() filename /athinio/system/alertlog1.txt, curpos 124
+Nov 26 18:27:56 2022: Leaving Sender() filename /athinio/system/alertlog1.txt, curpos 28
+Nov 26 18:28:03 2022: Entering Sender() filename /athinio/system/cmd_out.xml, curpos 120
+Nov 26 18:28:04 2022: Leaving Sender() filename /athinio/system/cmd_out.xml, curpos 28
+Nov 26 18:28:11 2022: Entering Sender() filename /athinio/system/service.txt, curpos 120
+Nov 26 18:28:13 2022: Leaving Sender() filename /athinio/system/service.txt, curpos 28
+Nov 26 18:28:19 2022: Entering Sender() filename /rcheckOutput, curpos 107
+Nov 26 18:28:21 2022: Leaving Sender() filename /rcheckOutput, curpos 28
+Nov 26 18:28:23 2022: BranchID 1
+Nov 26 18:28:23 2022: Connecting to IP 43.231.127.58, Port 20475
+Nov 26 18:28:23 2022: IN SYNCER: CONNECTED
+Nov 26 18:28:23 2022: in ddpClientGo for customer id 101
+Nov 26 18:28:23 2022: INFO : /rationalVault/data/2 already exists, not attempting to create again
+Nov 26 18:28:23 2022: INFO : /rationalVault/data/2/101 already exists, not attempting to create again
+Nov 26 18:28:23 2022: INFO : /rationalVault/data/2/101/1 already exists, not attempting to create again
+Nov 26 18:28:23 2022: INFO : /rationalVault/data/2/101/1/2 already exists, not attempting to create again
+Nov 26 18:28:23 2022: INFO : /rationalVault/data/2/101/1/2/1 already exists, not attempting to create again
+Nov 26 18:28:25 2022:  AUDIT_LOGGING : Executed Ransomware-checker for /rationalVault/all_xml_dir/store
+Nov 26 18:28:27 2022: Entering Sender() filename /athinio/system/osstatus.xml, curpos 122
+Nov 26 18:28:29 2022: Leaving Sender() filename /athinio/system/osstatus.xml, curpos 28
+Nov 26 18:28:36 2022: Entering Sender() filename /athinio/system/CurrentEvents.xml, curpos 132
+Nov 26 18:28:37 2022: Leaving Sender() filename /athinio/system/CurrentEvents.xml, curpos 28
+Nov 26 18:28:44 2022: Entering Sender() filename /athinio/system/AuditLogItems.xml, curpos 132
+Nov 26 18:28:46 2022: Leaving Sender() filename /athinio/system/AuditLogItems.xml, curpos 28
+Nov 26 18:28:52 2022: Entering Sender() filename /athinio/recovery/criticalErrors.xml, curpos 138
+Nov 26 18:28:54 2022: Leaving Sender() filename /athinio/recovery/criticalErrors.xml, curpos 28
+Nov 26 18:29:00 2022: Entering Sender() filename /athinio/system/auditlogs.txt, curpos 124
+Nov 26 18:29:04 2022: Leaving Sender() filename /athinio/system/auditlogs.txt, curpos 28
+Nov 26 18:29:10 2022: Entering Sender() filename /athinio/system/alertlog.xml, curpos 122
+Nov 26 18:29:12 2022: Leaving Sender() filename /athinio/system/alertlog.xml, curpos 28
+Nov 26 18:29:19 2022: Entering Sender() filename /athinio/system/alertlog1.txt, curpos 124
+Nov 26 18:29:20 2022: Leaving Sender() filename /athinio/system/alertlog1.txt, curpos 28
+Nov 26 18:29:27 2022: Entering Sender() filename /athinio/system/cmd_out.xml, curpos 120
+Nov 26 18:29:28 2022: Leaving Sender() filename /athinio/system/cmd_out.xml, curpos 28

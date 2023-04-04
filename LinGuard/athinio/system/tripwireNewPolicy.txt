@@ -1,0 +1,8 @@
+# Ruleset for Wordpress
+(
+rulename = “Wordpress Data”,
+severity = $(SIG_HI)
+)
+{
+Hai -> $(SEC_CRIT);
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CMD_CONFIG>
+        <firewallStatus>active</firewallStatus>
+	<selinuxStatus>ALERT: SELinux at Enforcing mode.</selinuxStatus>
+	<ath_serviceStatus>inactive</ath_serviceStatus>
+	<one_serviceStatus>inactive</one_serviceStatus>
+	<onegrid_infectedStatus>Infected files: 0</onegrid_infectedStatus>
+	<athgateway_infectedStatus>Infected files: 0</athgateway_infectedStatus>
+	<onegrid_rootConf>----------------</onegrid_rootConf>
+	<athgateway_rootConf>----------------</athgateway_rootConf>
+</CMD_CONFIG>

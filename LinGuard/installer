@@ -1,0 +1,76 @@
+#!/bin/bash
+
+pwd=`pwd`
+logfile="/tmp/nerviocloud-install.log"
+echo "Log file is being created at $logfile"
+
+export check=`rpm -qa | grep -i nervio | wc -l`
+if [ $check -ge 1 ];then
+        echo "Some of the Package(s) of nervio was/were already installed, please check with \'rpm -qa | grep -i nervio\'" | tee -a $logfile
+        exit 1
+fi
+
+echo "Upgrading your system. Please wait... " | tee -a $logfile
+yum update -y
+
+if [ $? -eq 0 ]; then
+       echo "Updation successfully completed." | tee -a $logfile
+elif [ $? -ne 0 ]; then
+       echo "Failed to upgrade your system..." | tee -a $logfile
+       exit 1
+fi
+
+echo "Installing necessary dependent packages... " | tee -a $logfile
+yum install -y apr httpd httpd-tools && yum install -y epel-release && yum install -y clamav-data clamav-update clamav-filesystem clamav-devel clamav-lib clamav clamd && yum install -y cifs-utils && yum install -y openssl && yum install -y php-xml && yum install -y clamav && yum install -y systemd-python && yum install -y fail2ban-server && yum install -y fail2ban-sendmail && yum install -y fail2ban-firewalld && yum install -y clamd && yum install -y php-cli && yum install -y php && yum install -y initscripts
+
+if [ $? -eq 0 ]; then
+       echo "Dependent packages successfully installed." | tee -a $logfile
+elif [ $? -ne 0 ]; then
+       echo "Failed to install necessary dependent packages..." | tee -a $logfile
+       exit 1
+fi
+
+echo "Disable firewalld... " | tee -a $logfile
+sudo /usr/sbin/chkconfig firewalld off >> $logfile 2 >&1
+sudo /usr/bin/systemctl stop firewalld >> $logfile 2 >&1
+
+rm -fr /athinio/
+rm -fr /home/athinio/
+
+cp -rf ssl7/ /
+cp -fr athinio/ /
+chmod -R 0777 /athinio/
+
+echo "Installing rationalVault also..." | tee -a $logfile
+cp -fr rationalVault/  /
+cp -fr rationalVault/init.d/rclient /etc/init.d/
+cp -fr rationalVault/init.d/rclient /etc/rc.d/init.d/
+chmod -R 0777 /etc/init.d/rclient
+chmod -R 0777 /etc/rc.d/init.d/rclient
+mkdir -p /var/neridio/
+cp /rationalVault/all_xml_dir/jail.local /var/neridio/jail.local
+touch /home/rclienttmp.log
+chkconfig rclient on
+service rclient start
+
+chmod -R 0777 /athinio
+chmod -R 0777 /rationalVault
+chmod -R 5777 /athinio/bin
+
+if [ -e /usr/bin/xmlstarlet ]; then
+:
+else
+cp -rf /LinGuard/xmlstarlet /usr/bin/
+chmod 0777 /usr/bin/xmlstarlet
+fi
+
+mkdir -p /home/athinio/data/1cloudFiler/log/
+
+#######Port open for Cassandra########
+
+/athinio/bin/closeports.sh
+
+#########tripwire installation#######
+
+/athinio/bin/tripwire.sh
+

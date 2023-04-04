@@ -1,0 +1,14 @@
+#!/bin/bash
+
+a=$(xmlstarlet sel -t -m //options -v . /athinio/system/param_cmd_88.xml)
+
+if [ $a -eq 1 ];then
+
+bash /athinio/bin/tripwireDefPolicy.sh
+
+elif [ $a -eq 2 ];then
+
+bash /athinio/bin/tripwireNewPolicy.sh
+
+fi
+

@@ -1,0 +1,38 @@
+#!/bin/bash
+
+chkconfig --list | awk '{print $1}' > /athinio/system/service.txt
+
+if [ $2 == "on" ]
+then
+    /bin/systemctl start $1
+    echo "`date +"%b %d %T %Y"`: AUDIT_LOGGING : Security system started \"$1\" service" >> /rationalVault/log/rationalclient.log
+    echo "`date +"%b %d %T %Y"` : INFO : Security system started \"$1\" service"  >> /var/log/osstatus.log
+elif [ $2 == "off" ]
+then
+    /bin/systemctl stop $1
+    echo "`date +"%b %d %T %Y"`: AUDIT_LOGGING : Security system stopped \"$1\" service" >> /rationalVault/log/rationalclient.log
+    echo "`date +"%b %d %T %Y"` : INFO : Security system stopped \"$1\" service"  >> /var/log/osstatus.log
+elif [ $2 == "reset" ]
+then
+    /bin/systemctl restart $1
+    echo "`date +"%b %d %T %Y"`: AUDIT_LOGGING : Security system re-started \"$1\" service" >> /rationalVault/log/rationalclient.log
+    echo "`date +"%b %d %T %Y"` : INFO : Security system re-started \"$1\" service"  >> /var/log/osstatus.log
+fi
+
+for stat in $(cat /athinio/system/service.txt)
+do
+
+dstat=$(systemctl status $stat | awk '/Active/ {print $2}')
+cstat=$(echo $dstat | awk '{print $1}')
+
+echo $cstat >> /athinio/system/LIST_SERVICE_ON
+
+done
+
+rm -fr /athinio/system/services.xml
+
+/usr/bin/python /athinio/bin/largefiles.py /athinio/system/LIST_SERVICE_ON
+
+chmod 0777 /athinio/system/services.xml
+
+>/athinio/system/LIST_SERVICE_ON

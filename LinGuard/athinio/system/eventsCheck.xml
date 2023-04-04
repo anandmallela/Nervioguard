@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<OS_COUNTERS>
+	<general_details>
+            <process_running_limit>400</process_running_limit>
+            <process_event_cmd></process_event_cmd>
+            <memory_percent_limit>80</memory_percent_limit>
+            <memory_event_cmd></memory_event_cmd>
+            <space_percent_limit>75</space_percent_limit>
+            <space_event_cmd></space_event_cmd>
+            <Ransom_Attack_detection>NO</Ransom_Attack_detection>
+            <Ransom_Attack_time>NO</Ransom_Attack_time>
+            <pod_event_24>1</pod_event_24>
+	    <network_intrusion_detection>YES</network_intrusion_detection> 
+	    <network_intrusion_time>Feb 07 08:13:36 2022</network_intrusion_time>
+	    <network_intrusion_IP>202.83.56.216</network_intrusion_IP>
+	</general_details>
+</OS_COUNTERS>
+

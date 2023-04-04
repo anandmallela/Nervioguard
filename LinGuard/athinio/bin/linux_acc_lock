@@ -1,0 +1,41 @@
+#!/bin/bash
+
+user=$(awk -F "[><]" '/param0/{print $3}' /athinio/system/param_cmd_70_71.xml)
+
+rm -rf /athinio/system/accstat.xml
+
+if [ $1 == "-l" ]; then
+      echo "`date +"%b %d %T %Y"` : INFO : Linux Acc Lock command invoked" >> /var/log/osstatus.log
+      sudo usermod -s /usr/sbin/nologin "$user"
+      if [ $? -eq 0 ]; then
+      echo "`date +"%b %d %T %Y"` : ALERT : Locking \"$user\" user done" >> /athinio/system/ACCSTAT1
+      tac /athinio/system/ACCSTAT1 > /athinio/system/ACCSTAT
+      /usr/bin/python /athinio/bin/largefiles.py /athinio/system/ACCSTAT
+      echo "`date +"%b %d %T %Y"`: AUDIT_LOGGING : Security system Locked \"$user\" user" >> /rationalVault/log/rationalclient.log
+      echo "`date +"%b %d %T %Y"` : ALERT : Locking \"$user\" user done"  >> /var/log/osstatus.log
+      pkill -u "$user"
+      elif [ $? -ne 0 ]; then
+      echo "`date +"%b %d %T %Y"` : ERROR : Can't lock \"$user\" user. User does not exists" >> /athinio/system/ACCSTAT1
+      tac /athinio/system/ACCSTAT1 > /athinio/system/ACCSTAT
+      /usr/bin/python /athinio/bin/largefiles.py /athinio/system/ACCSTAT
+      echo "ERROR:Can't lock \"$user\" user. User does not exists!" > /athinio/system/alertlog1.txt
+      echo "`date +"%b %d %T %Y"` : ERROR : Can't lock \"$user\" user. User does not exists" >> /var/log/osstatus.log
+      fi
+
+elif [ $1 == "-u" ]; then
+      echo "`date +"%b %d %T %Y"` : INFO : Linux Acc Un-lock command invoked" >> /var/log/osstatus.log
+      sudo usermod -s /bin/bash "$user"
+      if [ $? -eq 0 ]; then
+      echo "`date +"%b %d %T %Y"` : INFO : Un-locking \"$user\" user done" >> /athinio/system/ACCSTAT1
+      tac /athinio/system/ACCSTAT1 > /athinio/system/ACCSTAT
+      /usr/bin/python /athinio/bin/largefiles.py /athinio/system/ACCSTAT
+      echo "`date +"%b %d %T %Y"`: AUDIT_LOGGING : Security system Un-locked \"$user\" user" >> /rationalVault/log/rationalclient.log
+      echo "`date +"%b %d %T %Y"` : INFO : Un-locking \"$user\" user done"  >> /var/log/osstatus.log
+      elif [ $? -ne 0 ]; then
+      echo "`date +"%b %d %T %Y"` : ERROR : Can't un-lock \"$user\" user. User does not exists" >> /athinio/system/ACCSTAT1
+      tac /athinio/system/ACCSTAT1 > /athinio/system/ACCSTAT
+      /usr/bin/python /athinio/bin/largefiles.py /athinio/system/ACCSTAT
+      echo "ERROR:Can't un-lock \"$user\" user. User does not exists!" > /athinio/system/alertlog1.txt
+      echo "`date +"%b %d %T %Y"` : ERROR : Can't un-lock \"$user\" user. User does not exists" >> /var/log/osstatus.log
+      fi
+fi

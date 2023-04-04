@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo "`date +"%b %d %T %Y"` : INFO : List Open Ports Command Executed" >> /var/log/osstatus.log
+sudo netstat -tulpn | awk '/LISTEN/ {print $4}' > /athinio/system/LIST_OPEN_PORTS
+
+if [ $? -eq 0 ]; then
+
+rm -fr /athinio/system/open_ports.xml
+
+/usr/bin/python /athinio/bin/largefiles.py /athinio/system/LIST_OPEN_PORTS
+
+if [ $? -eq 0 ]; then
+echo "`date +"%b %d %T %Y"` : SUCCESS : List Open Pots Command Succeeded" >> /var/log/osstatus.log
+
+> /athinio/system/LIST_OPEN_PORTS
+
+elif [ $? -ne 0 ]; then
+echo "`date +"%b %d %T %Y"` : ERROR : Can't create XML files. Check Python files are there or not?" >> /var/log/osstatus.log
+fi
+
+elif [ $? -ne 0 ]; then
+echo "`date +"%b %d %T %Y"` : ERROR : Can't execute List Open Ports command" >> /var/log/osstatus.log
+fi

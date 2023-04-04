@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<System_Policy_Management>
+                <Current_date_and_time>2022-11-26 19:43:28</Current_date_and_time>
+                <Disk_current_value>64</Disk_current_value>
+                <Process_current_value>211</Process_current_value>
+                <RAM_current_value>37</RAM_current_value>
+                <Lib_current_status>0</Lib_current_status>
+                <Bin_current_status>0</Bin_current_status>
+                <Ransom_current_status>0</Ransom_current_status>
+</System_Policy_Management>

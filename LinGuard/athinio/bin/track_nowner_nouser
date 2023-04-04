@@ -1,0 +1,29 @@
+#!/bin/bash
+
+echo "`date +"%b %d %T %Y"` : INFO : Track Noowner & Nouser command invoked" >> /var/log/osstatus.log
+
+rm -rf /athinio/system/track_nonu_error.txt
+
+tnonu=$(awk -F "[><]" '/param0/{print $3}' /athinio/system/param_cmd_75.xml)
+
+if [ -e "$tnonu" ]; then
+
+find "$tnonu" -xdev \( -nouser -o -nogroup \) -print > /athinio/system/NOOWN_NOUSER
+
+/usr/bin/python /athinio/bin/largefiles.py /athinio/system/NOOWN_NOUSER
+
+if [ $? -eq 0 ]; then
+
+echo "`date +"%b %d %T %Y"` : SUCCESS : Track Noowner & Nouser command executed for \"$tnonu\"" >> /var/log/osstatus.log
+
+> /athinio/system/NOOWN_NOUSER
+
+elif [ $? -ne 0 ]; then
+echo "`date +"%b %d %T %Y"` : ERROR : Command not executed. Please check Python files are there or not!" >> /var/log/osstatus.log
+fi
+
+else
+echo "`date +"%b %d %T %Y"` : ERROR : \"$tnonu\" folder doesn't exists. Please check the folder name..!" > /athinio/system/track_nonu_error.txt
+echo "ERROR:\"$tnonu\" folder doesn't exists. Please check the folder name..!" > /athinio/system/alertlog1.txt
+echo "`date +"%b %d %T %Y"` : ERROR : Entered path \"$tnonu\" is wrong" >> /var/log/osstatus.log
+fi

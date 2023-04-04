@@ -1,0 +1,32 @@
+#!/bin/bash
+
+if [ $1 == "-d" ]; then
+echo "Disabling root login" > /ROOTSTAT
+echo "`date +"%b %d %T %Y"` : INFO : Root login disabled command executed" >> /var/log/osstatus.log
+
+sudo usermod -s /usr/sbin/nologin root
+
+if [ $? -eq 0 ]; then
+echo "`date +"%b %d %T %Y"` : ALERT : Root login disabled" >> /var/log/osstatus.log
+sed -i "s/\(<status>\)[^<]*\(<\/status>\)/\1`date +"%b %d %T %Y"` : ALERT : Root login disabled\2/" /athinio/system/rootstat.xml
+
+ps -U root | egrep -vi -e "network" -e "rclient" | awk '{print $1}' | xargs -t kill
+
+elif [ $? -ne 0 ]; then
+echo "`date +"%b %d %T %Y"` : ERROR : Can't disable root login" >> /var/log/osstatus.log
+fi
+
+elif [ $1 == "-e" ]; then
+echo "Enabling root login" > /ROOTSTAT
+echo "`date +"%b %d %T %Y"` : INFO : Root login enabled command executed" >> /var/log/osstatus.log
+
+sudo usermod -s /bin/bash root
+
+if [ $? -eq 0 ]; then
+echo "`date +"%b %d %T %Y"` : ALERT : Root login enabled" >> /var/log/osstatus.log
+sed -i "s/\(<status>\)[^<]*\(<\/status>\)/\1`date +"%b %d %T %Y"` : INFO : Root login enabled\2/" /athinio/system/rootstat.xml
+elif [ $? -ne 0 ]; then
+echo "`date +"%b %d %T %Y"` : ERROR : Can't enable root login" >> /var/log/osstatus.log
+fi
+
+fi
